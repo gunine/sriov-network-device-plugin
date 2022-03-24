@@ -162,3 +162,12 @@ To change the number of VFs reset the number to 0 then set the needed number
 ```
 echo 0 > /sys/class/net/enp2s0f0/device/sriov_numvfs
 ```
+
+## Appendix
+1. The virtual functions are not discovered or created
+If the SR-IOV device CNI cannot create VFs with "no devices in device pool, skipping creating resource server for" message, the user needs to manually load the vfio-pci modules using following commands and restart the SR-IOV related PODs.
+```
+# modprobe vfio_pci
+# kubectl delete po sriov-network-config-daemon-XXXXX -n sriov
+# kubectl delete po sriov-device-plugin-XXXXX -n sriov
+```
